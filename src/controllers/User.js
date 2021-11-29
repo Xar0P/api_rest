@@ -15,7 +15,6 @@ class UserController {
   async index(req, res) {
     try {
       const users = await User.findAll();
-      console.log(req.userId, req.userEmail);
       return res.json(users);
     } catch (e) {
       console.log(e);
@@ -36,15 +35,7 @@ class UserController {
 
   async update(req, res) {
     try {
-      const { id } = req.params;
-
-      if (!id) {
-        return res.status(400).json({
-          errors: ['ID não enviado'],
-        });
-      }
-
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(req.userId);
 
       if (!user) {
         return res.status(400).json({
@@ -64,15 +55,7 @@ class UserController {
 
   async delete(req, res) {
     try {
-      const { id } = req.params;
-
-      if (!id) {
-        return res.status(400).json({
-          errors: ['ID não enviado'],
-        });
-      }
-
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(req.userId);
 
       if (!user) {
         return res.status(400).json({
